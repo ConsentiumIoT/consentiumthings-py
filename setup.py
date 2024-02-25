@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.3'
+VERSION = '0.5'
 DESCRIPTION = 'Python lib for sending sensor data to Consentium IoT server.'
 LONG_DESCRIPTION = 'A package that allows to send sensor data to Consentium IoT server.'
 
