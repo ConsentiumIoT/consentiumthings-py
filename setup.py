@@ -7,21 +7,22 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.2'
-DESCRIPTION = 'Python API for uploading data to Consentium IoT cloud'
-LONG_DESCRIPTION = 'A package that allows to send sensor data to Consentium IoT cloud.'
+VERSION = '0.3'
+DESCRIPTION = 'Python lib for sending sensor data to Consentium IoT server.'
+LONG_DESCRIPTION = 'A package that allows to send sensor data to Consentium IoT server.'
 
 # Setting up
 setup(
-    name="ConsentiumThings",
+    name="consentiumthings",
     version=VERSION,
-    author="Consentium",
+    author="Debjyoti Chowdhury, Ph.D.",
     author_email="<consentium.inc@gmail.com>",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
     packages=find_packages(),
-    keywords=['python', 'sensor', 'internet of things'],
+    install_requires=['requests'],
+    keywords=['Python', 'Internet of Things'],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",

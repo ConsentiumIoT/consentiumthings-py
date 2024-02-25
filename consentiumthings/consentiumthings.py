@@ -2,7 +2,7 @@ import requests
 from urllib.parse import urljoin
 
 
-class ConsentiumThings:
+class consentiumthings:
     BASE_URL = "https://consentiuminc.online/api/board/"
 
     def __init__(self, board_key):

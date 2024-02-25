@@ -6,4 +6,5 @@ ConsentiumThings/__init__.py
 ConsentiumThings.egg-info/PKG-INFO
 ConsentiumThings.egg-info/SOURCES.txt
 ConsentiumThings.egg-info/dependency_links.txt
+ConsentiumThings.egg-info/requires.txt
 ConsentiumThings.egg-info/top_level.txt

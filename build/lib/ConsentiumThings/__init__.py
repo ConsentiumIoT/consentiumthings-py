@@ -1,1 +1,1 @@
-from ConsentiumThings import ConsentiumThings
+from ConsentiumThings.ConsentiumThings import ConsentiumThings
