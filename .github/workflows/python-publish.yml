@@ -3,7 +3,7 @@ name: Build and Publish to PyPI
 on:
   push:
     tags:
-      - "v*.*.*"  # Trigger workflow on versioned tags, e.g., v0.5.0
+      - "*.*.*"  # Trigger workflow on versioned tags, e.g., 0.5.0
 
 jobs:
   build:
