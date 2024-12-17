@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 
 
 class consentiumthings:
-    BASE_URL = "https://consentiuminc.online/api/board/"
+    BASE_URL = "https://consentiumiot.com/api/board/"
 
     def __init__(self, board_key):
         self.board_key = board_key

@@ -7,28 +7,37 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = '0.5'
+VERSION = '0.5.1'
 DESCRIPTION = 'Python lib for sending sensor data to Consentium IoT server.'
-LONG_DESCRIPTION = 'A package that allows to send sensor data to Consentium IoT server.'
+LONG_DESCRIPTION = (
+    "A Python library that enables developers to send sensor data to the "
+    "Consentium IoT server for monitoring and analysis."
+)
 
 # Setting up
 setup(
     name="consentiumthings",
     version=VERSION,
-    author="Debjyoti Chowdhury, Ph.D.",
-    author_email="<consentium.inc@gmail.com>",
+    author="Consentium IoT",
+    author_email="official@consentiumiot.com",
     description=DESCRIPTION,
     long_description_content_type="text/markdown",
     long_description=long_description,
+    url="https://github.com/ConsentiumIoT/consentiumthings-py",  # Add repo URL
     packages=find_packages(),
-    install_requires=['requests'],
-    keywords=['Python', 'Internet of Things'],
+    install_requires=['requests'],  # Dependencies
+    keywords=['Python', 'IoT', 'Internet of Things', 'Sensor Data', 'Consentium IoT'],
     classifiers=[
-        "Development Status :: 1 - Planning",
+        "Development Status :: 3 - Alpha",  # Update as needed
         "Intended Audience :: Developers",
+        "Topic :: Software Development :: Libraries",
+        "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
-        "Operating System :: Unix",
-        "Operating System :: MacOS :: MacOS X",
-        "Operating System :: Microsoft :: Windows",
-    ]
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.7',  # Ensure Python version compatibility
 )
