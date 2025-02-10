@@ -22,8 +22,8 @@ class consentiumthings:
         self.receive_url = f"{base_url}?receivekey={receive_key}&boardkey={self.board_key}"
 
     def send_data(self, data_buff, info_buff):
-        if len(data_buff) > 4 or len(info_buff) > 4:
-            raise ValueError("Only four sensor data points are allowed.")
+        if len(data_buff) > 7 or len(info_buff) > 7:
+            raise ValueError("Only eight sensor data points are allowed.")
 
         sensor_data = [{"info": info, "data": str(data)} for data, info in zip(data_buff, info_buff)]
         payload = {
