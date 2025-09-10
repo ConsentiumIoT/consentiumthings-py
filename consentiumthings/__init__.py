@@ -1,1 +1,1 @@
-from consentiumthings.consentiumthings import consentiumthings
+from consentiumthings.consentiumthings import ConsentiumThings
