@@ -1,32 +1,33 @@
 import requests
 from urllib.parse import urljoin
 import uuid
+from datetime import datetime, timezone
 
 class ConsentiumThings:
-    BASE_URL = "https://api.consentiumiot.com/"
+    __BASE_URL = "https://api.consentiumiot.com/"
 
     def __init__(self, board_key):
-        self.receive_recent = None
-        self.board_key = board_key
-        self.send_url = urljoin(self.BASE_URL, "v2/updateData")
-        self.receive_url = urljoin(self.BASE_URL, "getData")
-        self.session = requests.Session()
-        self.send_key = None
-        self.receive_key = None
+        self.__receive_recent = None
+        self.__board_key = board_key
+        self.__send_url = urljoin(self.__BASE_URL, "v2/updateData")
+        self.__receive_url = urljoin(self.__BASE_URL, "getData")
+        self.__session = requests.Session()
+        self.__send_key = None
+        self.__receive_key = None
 
     def begin_send(self, send_key):
-        self.send_key = send_key
+        self.__send_key = send_key
 
-    def begin_receive(self, receive_key, recents=True):
-        self.receive_key = receive_key
-        self.receive_recent = recents
+    def begin_receive(self, receive_key, recents=False):
+        self.__receive_key = receive_key
+        self.__receive_recent = recents
 
     def send_data(self, data_buff, info_buff, firmware="0.0", arch="GenericPython",
                   status_ota=False, signal_strength=-100):
         """
         Send sensor data to Consentium IoT Cloud.
         """
-        if not self.send_key:
+        if not self.__send_key:
             raise ValueError("Send key not initialized. Call begin_send first.")
 
         sensor_data = [{"info": info, "data": str(data)}
@@ -45,10 +46,10 @@ class ConsentiumThings:
             }
         }
 
-        params = {"sendKey": self.send_key, "boardKey": self.board_key}
+        params = {"sendKey": self.__send_key, "boardKey": self.__board_key}
 
         try:
-            response = self.session.post(self.send_url, params=params, json=payload)
+            response = self.__session.post(self.__send_url, params=params, json=payload)
             response.raise_for_status()
             return response.json()
 
@@ -67,23 +68,38 @@ class ConsentiumThings:
             print(f"An error occurred during sending data: {e}")
             return {"message": str(e)}
 
-    def receive_data(self):
+    def receive_data(self, start_date_time=None, end_date_time=None):
         """
         Fetch sensor data from Consentium IoT Cloud.
         Returns a dictionary mapping sensor labels (info1, info2...) to values.
         """
-        if not self.receive_key:
+        if not self.__receive_key:
             raise ValueError("Receive key not initialized. Call begin_receive first.")
 
         params = {
-            "receiveKey": self.receive_key,
-            "boardKey": self.board_key
+            "receiveKey": self.__receive_key,
+            "boardKey": self.__board_key
         }
-        if self.receive_recent:
+
+        if self.__receive_recent and (start_date_time or end_date_time):
+            raise ValueError(
+                "Time slicing parameters (start_time/end_time) cannot be used "
+                "because 'recents=True' was set in begin_receive()."
+            )
+
+        if self.__receive_recent:
             params["recents"] = "true"
+        else:
+            params["recents"] = "false"
+            # Assuming your backend API accepts these exact parameter names.
+            # Update keys if the API expects "start" / "end" instead.
+            if start_date_time:
+                params["from"] = start_date_time
+            if end_date_time:
+                params["to"] = end_date_time
 
         try:
-            response = self.session.get(self.receive_url, params=params)
+            response = self.__session.get(self.__receive_url, params=params)
             response.raise_for_status()
             payload = response.json()
         except (requests.exceptions.RequestException, ValueError) as e:
@@ -97,7 +113,13 @@ class ConsentiumThings:
 
         parsed_data = []
         for feed in feeds:
-            entry = {"updated_at": feed.get("updated_at")}
+            time_str = feed.get("updated_at")
+            dt_naive = datetime.fromisoformat(time_str)
+            dt_utc = dt_naive.replace(tzinfo=timezone.utc)
+            dt_local = dt_utc.astimezone()
+            local_updated_at = dt_local.isoformat(timespec='milliseconds')
+
+            entry = {"updated_at": local_updated_at}
             for info_key, value_key in sensor_map.items():
                 label = board.get(info_key)
                 if label and value_key in feed:
