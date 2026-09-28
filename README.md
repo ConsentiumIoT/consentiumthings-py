@@ -66,21 +66,36 @@ Example response (MAC mismatch):
 
 To fetch data, initialize with your **receive key**, then call `receive_data()`.
 
-* By default, it fetches the **most recent data**.
-* Set `recent=False` to fetch the full history.
+* By default, it fetches the **full history**.
+* Set `recents=True` to fetch only the most recent data.
+* When fetching history, optionally provide `start_date_time` and/or
+  `end_date_time` to retrieve a time slice.
+
+```python
+ct.begin_receive("YOUR-RECEIVE-KEY")
+data = ct.receive_data(
+    start_date_time="2026-09-28T10:19:46.681+05:30",
+    end_date_time="2026-09-28T13:19:46.681+05:30"
+)
+print(data)
+```
+
+To fetch only the most recent data:
 
 ```python
 ct.begin_receive("YOUR-RECEIVE-KEY", recents=True)
 data = ct.receive_data()
-print(data)
 ```
+
+Time slicing cannot be used when `recents=True`; `receive_data()` raises
+`ValueError` if both options are used.
 
 Example response (parsed into Python dicts):
 
 ```python
 [
   {
-    "updated_at": "2025-09-05T14:20:56Z",
+    "updated_at": "2026-09-28T13:49:21.186+05:30",
     "Temperature": 40.0,
     "Humidity": 90.0
   }
@@ -117,18 +132,24 @@ Send sensor data.
   * `info_buff` (list): Labels for each sensor value.
 * **Returns**: Dict containing API response.
 
-### `begin_receive(receive_key, recent=True)`
+### `begin_receive(receive_key, recents=False)`
 
 Set up the client for retrieving data.
 
 * **Parameters**:
 
-  * `receive_key` (str): Key for authenticated receive operations.
-  * `recents` (bool): If True, fetch only most recent entry. Default: True.
+  * `__receive_key` (str): Key for authenticated receive operations.
+  * `recents` (bool): If True, fetch only the most recent entry. Default: False.
 
 ### `receive_data()`
 
-Fetch data from the cloud.
+Fetch data from the cloud, optionally restricted to a time range.
+
+* **Parameters**:
+
+  * `start_date_time` (str, optional): Start of the time slice. Sent to the API as `from`.
+  * `end_date_time` (str, optional): End of the time slice. Sent to the API as `to`.
+  * Time-slicing parameters cannot be used if `begin_receive()` was called with `recents=True`.
 
 * **Returns**: List of dicts with parsed sensor data.
 
@@ -145,6 +166,13 @@ ct = ConsentiumThings("YOUR-BOARD-KEY")
 # Send data
 ct.begin_send("YOUR-SEND-KEY")
 print(ct.send_data([40.0, 90.0], ["Temperature", "Humidity"]))
+
+# Receive a time slice from the history
+ct.begin_receive("YOUR-RECEIVE-KEY")
+print(ct.receive_data(
+  start_date_time="2026-09-28T10:19:46.681 05:30",
+  end_date_time="2026-09-28T13:19:46.681 05:30"
+))
 
 # Receive most recent data
 ct.begin_receive("YOUR-RECEIVE-KEY", recents=True)
