@@ -147,7 +147,7 @@ ct.begin_send("YOUR-SEND-KEY")
 print(ct.send_data([40.0, 90.0], ["Temperature", "Humidity"]))
 
 # Receive most recent data
-ct.begin_receive("YOUR-RECEIVE-KEY", recent=True)
+ct.begin_receive("YOUR-RECEIVE-KEY", recents=True)
 print(ct.receive_data())
 ```
 

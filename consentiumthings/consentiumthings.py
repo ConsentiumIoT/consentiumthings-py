@@ -6,6 +6,7 @@ class ConsentiumThings:
     BASE_URL = "https://api.consentiumiot.com/"
 
     def __init__(self, board_key):
+        self.receive_recent = None
         self.board_key = board_key
         self.send_url = urljoin(self.BASE_URL, "v2/updateData")
         self.receive_url = urljoin(self.BASE_URL, "getData")
