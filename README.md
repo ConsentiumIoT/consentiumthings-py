@@ -73,10 +73,12 @@ To fetch data, initialize with your **receive key**, then call `receive_data()`.
 
 ```python
 ct.begin_receive("YOUR-RECEIVE-KEY")
+
 data = ct.receive_data(
     start_date_time="2026-09-28T10:19:46.681 05:30",
     end_date_time="2026-09-28T13:19:46.681 05:30"
 )
+
 print(data)
 ```
 
@@ -138,7 +140,7 @@ Set up the client for retrieving data.
 
 * **Parameters**:
 
-  * `__receive_key` (str): Key for authenticated receive operations.
+  * `receive_key` (str): Key for authenticated receive operations.
   * `recents` (bool): If True, fetch only the most recent entry. Default: False.
 
 ### `receive_data()`
@@ -147,8 +149,8 @@ Fetch data from the cloud, optionally restricted to a time range.
 
 * **Parameters**:
 
-  * `start_date_time` (str, optional): Start of the time slice. Sent to the API as `from`.
-  * `end_date_time` (str, optional): End of the time slice. Sent to the API as `to`.
+  * `start_date_time` (str, optional): Start of the time slice.
+  * `end_date_time` (str, optional): End of the time slice.
   * Time-slicing parameters cannot be used if `begin_receive()` was called with `recents=True`.
 
 * **Returns**: List of dicts with parsed sensor data.
@@ -169,6 +171,7 @@ print(ct.send_data([40.0, 90.0], ["Temperature", "Humidity"]))
 
 # Receive a time slice from the history
 ct.begin_receive("YOUR-RECEIVE-KEY")
+
 print(ct.receive_data(
   start_date_time="2026-09-28T10:19:46.681 05:30",
   end_date_time="2026-09-28T13:19:46.681 05:30"
