@@ -124,7 +124,7 @@ Set up the client for retrieving data.
 * **Parameters**:
 
   * `receive_key` (str): Key for authenticated receive operations.
-  * `recent` (bool): If True, fetch only most recent entry. Default: True.
+  * `recents` (bool): If True, fetch only most recent entry. Default: True.
 
 ### `receive_data()`
 
