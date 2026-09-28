@@ -70,7 +70,7 @@ To fetch data, initialize with your **receive key**, then call `receive_data()`.
 * Set `recent=False` to fetch the full history.
 
 ```python
-ct.begin_receive("YOUR-RECEIVE-KEY", recent=True)
+ct.begin_receive("YOUR-RECEIVE-KEY", recents=True)
 data = ct.receive_data()
 print(data)
 ```
