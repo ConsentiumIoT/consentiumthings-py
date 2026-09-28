@@ -74,8 +74,8 @@ To fetch data, initialize with your **receive key**, then call `receive_data()`.
 ```python
 ct.begin_receive("YOUR-RECEIVE-KEY")
 data = ct.receive_data(
-    start_date_time="2026-09-28T10:19:46.681+05:30",
-    end_date_time="2026-09-28T13:19:46.681+05:30"
+    start_date_time="2026-09-28T10:19:46.681 05:30",
+    end_date_time="2026-09-28T13:19:46.681 05:30"
 )
 print(data)
 ```
